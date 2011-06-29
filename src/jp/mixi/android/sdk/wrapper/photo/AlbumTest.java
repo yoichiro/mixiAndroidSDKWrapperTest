@@ -5,7 +5,9 @@ import java.util.Date;
 import org.json.JSONObject;
 
 import jp.mixi.android.sdk.wrapper.AbstractTest;
+import jp.mixi.android.sdk.wrapper.Privacy;
 import jp.mixi.android.sdk.wrapper.Utils;
+import jp.mixi.android.sdk.wrapper.Visibility;
 
 public class AlbumTest extends AbstractTest {
 
