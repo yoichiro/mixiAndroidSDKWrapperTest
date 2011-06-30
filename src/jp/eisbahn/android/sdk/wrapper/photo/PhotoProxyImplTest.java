@@ -3,13 +3,13 @@ package jp.eisbahn.android.sdk.wrapper.photo;
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
 import jp.eisbahn.android.sdk.wrapper.photo.GetAlbumsCallbackHandler;
 import jp.eisbahn.android.sdk.wrapper.photo.GetPhotosCallbackHandler;
-import jp.eisbahn.android.sdk.wrapper.photo.PhotoContainerImpl;
+import jp.eisbahn.android.sdk.wrapper.photo.PhotoProxyImpl;
 import jp.mixi.android.sdk.MixiContainer;
 import android.test.mock.MockContext;
 
 import com.google.android.testing.mocking.AndroidMock;
 
-public class PhotoContainerImplTest extends AbstractTest {
+public class PhotoProxyImplTest extends AbstractTest {
 
     public void testGetMyAlbums() throws Exception {
         GetAlbumsCallbackHandler handler = new GetAlbumsCallbackHandler(new MockContext());
@@ -18,7 +18,7 @@ public class PhotoContainerImplTest extends AbstractTest {
         mixiContainer.send("/photo/albums/@me/@self", handler);
         AndroidMock.replay(mixiContainer);
         
-        PhotoContainerImpl target = new PhotoContainerImpl(mixiContainer);
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getMyAlbums(handler);
         
         AndroidMock.verify(mixiContainer);
@@ -32,7 +32,7 @@ public class PhotoContainerImplTest extends AbstractTest {
         mixiContainer.send("/photo/albums/@me/@self/" + albumId, handler);
         AndroidMock.replay(mixiContainer);
         
-        PhotoContainerImpl target = new PhotoContainerImpl(mixiContainer);
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getMyAlbum(albumId, handler);
         
         AndroidMock.verify(mixiContainer);
@@ -46,7 +46,7 @@ public class PhotoContainerImplTest extends AbstractTest {
         mixiContainer.send("/photo/albums/" + userId + "/@self", handler);
         AndroidMock.replay(mixiContainer);
         
-        PhotoContainerImpl target = new PhotoContainerImpl(mixiContainer);
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getFriendAlbums(userId, handler);
         
         AndroidMock.verify(mixiContainer);
@@ -61,7 +61,7 @@ public class PhotoContainerImplTest extends AbstractTest {
         mixiContainer.send("/photo/albums/" + userId + "/@self?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
         AndroidMock.replay(mixiContainer);
         
-        PhotoContainerImpl target = new PhotoContainerImpl(mixiContainer);
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getFriendAlbums(userId, accessKey, handler);
         
         AndroidMock.verify(mixiContainer);
@@ -76,7 +76,7 @@ public class PhotoContainerImplTest extends AbstractTest {
         mixiContainer.send("/photo/albums/" + userId + "/@self/" + albumId, handler);
         AndroidMock.replay(mixiContainer);
         
-        PhotoContainerImpl target = new PhotoContainerImpl(mixiContainer);
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getFriendAlbum(userId, albumId, handler);
         
         AndroidMock.verify(mixiContainer);
@@ -92,7 +92,7 @@ public class PhotoContainerImplTest extends AbstractTest {
         mixiContainer.send("/photo/albums/" + userId + "/@self/" + albumId + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
         AndroidMock.replay(mixiContainer);
         
-        PhotoContainerImpl target = new PhotoContainerImpl(mixiContainer);
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getFriendAlbum(userId, albumId, accessKey, handler);
         
         AndroidMock.verify(mixiContainer);
@@ -105,7 +105,7 @@ public class PhotoContainerImplTest extends AbstractTest {
         mixiContainer.send("/photo/albums/@me/@friends", handler);
         AndroidMock.replay(mixiContainer);
         
-        PhotoContainerImpl target = new PhotoContainerImpl(mixiContainer);
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getFriendsAlbums(handler);
         
         AndroidMock.verify(mixiContainer);
@@ -119,7 +119,7 @@ public class PhotoContainerImplTest extends AbstractTest {
         mixiContainer.send("/photo/mediaItems/@me/@self/" + albumId, handler);
         AndroidMock.replay(mixiContainer);
         
-        PhotoContainerImpl target = new PhotoContainerImpl(mixiContainer);
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getMyPhotos(albumId, handler);
         
         AndroidMock.verify(mixiContainer);
@@ -134,7 +134,7 @@ public class PhotoContainerImplTest extends AbstractTest {
         mixiContainer.send("/photo/mediaItems/@me/@self/" + albumId + "/" + mediaItemId, handler);
         AndroidMock.replay(mixiContainer);
         
-        PhotoContainerImpl target = new PhotoContainerImpl(mixiContainer);
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getMyPhoto(albumId, mediaItemId, handler);
         
         AndroidMock.verify(mixiContainer);

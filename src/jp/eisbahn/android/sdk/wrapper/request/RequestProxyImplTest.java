@@ -5,7 +5,7 @@ import java.util.Map;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
 import jp.eisbahn.android.sdk.wrapper.CallbackAdapter;
-import jp.eisbahn.android.sdk.wrapper.request.RequestContainerImpl;
+import jp.eisbahn.android.sdk.wrapper.request.RequestProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.request.SendRequestCallbackHandler;
 import jp.eisbahn.android.sdk.wrapper.request.SendRequestParams;
 import jp.mixi.android.sdk.HttpMethod;
@@ -15,7 +15,7 @@ import android.test.mock.MockContext;
 
 import com.google.android.testing.mocking.AndroidMock;
 
-public class RequestContainerImplTest extends AbstractTest {
+public class RequestProxyImplTest extends AbstractTest {
 
     public void testSendRequest() throws Exception {
         Context context = new MockContext();
@@ -32,7 +32,7 @@ public class RequestContainerImplTest extends AbstractTest {
         mixiContainer.showDialog(context, "/requests", parameterMap, handler);
         AndroidMock.replay(mixiContainer);
         
-        RequestContainerImpl target = new RequestContainerImpl(mixiContainer);
+        RequestProxyImpl target = new RequestProxyImpl(mixiContainer);
         target.sendRequest(context, params, handler);
         
         AndroidMock.verify(mixiContainer);
@@ -48,7 +48,7 @@ public class RequestContainerImplTest extends AbstractTest {
         mixiContainer.send("/apps/requests/@me/@self", HttpMethod.DELETE, params, handler);
         AndroidMock.replay(mixiContainer);
         
-        RequestContainerImpl target = new RequestContainerImpl(mixiContainer);
+        RequestProxyImpl target = new RequestProxyImpl(mixiContainer);
         target.deleteRequests(new String[] {"123", "456"}, handler);
         
         AndroidMock.verify(mixiContainer);
