@@ -1,10 +1,12 @@
-package jp.mixi.android.sdk.wrapper.people;
+package jp.eisbahn.android.sdk.wrapper.people;
 
 import java.util.List;
 
 import android.os.Bundle;
 import android.test.mock.MockContext;
-import jp.mixi.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.people.GetPeopleCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.people.Person;
 
 public class GetPeopleCallbackHandlerTest extends AbstractTest {
 

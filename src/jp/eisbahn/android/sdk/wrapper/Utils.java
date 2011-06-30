@@ -1,4 +1,4 @@
-package jp.mixi.android.sdk.wrapper;
+package jp.eisbahn.android.sdk.wrapper;
 
 import java.util.Calendar;
 import java.util.Date;

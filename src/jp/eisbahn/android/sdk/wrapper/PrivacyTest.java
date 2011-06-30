@@ -1,4 +1,7 @@
-package jp.mixi.android.sdk.wrapper;
+package jp.eisbahn.android.sdk.wrapper;
+
+import jp.eisbahn.android.sdk.wrapper.Privacy;
+import jp.eisbahn.android.sdk.wrapper.Visibility;
 
 import org.json.JSONObject;
 

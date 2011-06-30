@@ -1,12 +1,13 @@
-package jp.mixi.android.sdk.wrapper.photo;
+package jp.eisbahn.android.sdk.wrapper.photo;
 
 import java.util.Date;
 
 import org.json.JSONObject;
 
-import jp.mixi.android.sdk.wrapper.AbstractTest;
-import jp.mixi.android.sdk.wrapper.User;
-import jp.mixi.android.sdk.wrapper.Utils;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.User;
+import jp.eisbahn.android.sdk.wrapper.Utils;
+import jp.eisbahn.android.sdk.wrapper.photo.Comment;
 
 public class CommentTest extends AbstractTest {
 

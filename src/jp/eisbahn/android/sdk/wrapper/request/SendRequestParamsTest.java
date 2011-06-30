@@ -1,8 +1,9 @@
-package jp.mixi.android.sdk.wrapper.request;
+package jp.eisbahn.android.sdk.wrapper.request;
 
 import java.util.Map;
 
-import jp.mixi.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.request.SendRequestParams;
 
 public class SendRequestParamsTest extends AbstractTest {
     

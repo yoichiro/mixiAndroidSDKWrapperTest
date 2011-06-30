@@ -1,12 +1,15 @@
-package jp.mixi.android.sdk.wrapper.request;
+package jp.eisbahn.android.sdk.wrapper.request;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.CallbackAdapter;
+import jp.eisbahn.android.sdk.wrapper.request.RequestContainerImpl;
+import jp.eisbahn.android.sdk.wrapper.request.SendRequestCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.request.SendRequestParams;
 import jp.mixi.android.sdk.HttpMethod;
 import jp.mixi.android.sdk.MixiContainer;
-import jp.mixi.android.sdk.wrapper.AbstractTest;
-import jp.mixi.android.sdk.wrapper.CallbackAdapter;
 import android.content.Context;
 import android.test.mock.MockContext;
 

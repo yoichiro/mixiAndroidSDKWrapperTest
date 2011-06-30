@@ -1,8 +1,9 @@
-package jp.mixi.android.sdk.wrapper.people;
+package jp.eisbahn.android.sdk.wrapper.people;
 
 import org.json.JSONObject;
 
-import jp.mixi.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.people.Person;
 
 public class PersonTest extends AbstractTest {
     

@@ -1,10 +1,15 @@
-package jp.mixi.android.sdk.wrapper.people;
+package jp.eisbahn.android.sdk.wrapper.people;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.people.GetPeopleCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.people.GetPeopleParams;
+import jp.eisbahn.android.sdk.wrapper.people.PeopleContainerImpl;
+import jp.eisbahn.android.sdk.wrapper.people.SortBy;
+import jp.eisbahn.android.sdk.wrapper.people.SortOrder;
 import jp.mixi.android.sdk.MixiContainer;
-import jp.mixi.android.sdk.wrapper.AbstractTest;
 import android.test.mock.MockContext;
 
 import com.google.android.testing.mocking.AndroidMock;

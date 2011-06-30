@@ -1,13 +1,14 @@
-package jp.mixi.android.sdk.wrapper.photo;
+package jp.eisbahn.android.sdk.wrapper.photo;
 
 import java.util.Date;
 
 import org.json.JSONObject;
 
-import jp.mixi.android.sdk.wrapper.AbstractTest;
-import jp.mixi.android.sdk.wrapper.Privacy;
-import jp.mixi.android.sdk.wrapper.Utils;
-import jp.mixi.android.sdk.wrapper.Visibility;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.Privacy;
+import jp.eisbahn.android.sdk.wrapper.Utils;
+import jp.eisbahn.android.sdk.wrapper.Visibility;
+import jp.eisbahn.android.sdk.wrapper.photo.Album;
 
 public class AlbumTest extends AbstractTest {
 

@@ -1,12 +1,14 @@
-package jp.mixi.android.sdk.wrapper.photo;
+package jp.eisbahn.android.sdk.wrapper.photo;
 
 import java.util.Date;
 import java.util.List;
 
-import jp.mixi.android.sdk.wrapper.AbstractTest;
-import jp.mixi.android.sdk.wrapper.Privacy;
-import jp.mixi.android.sdk.wrapper.Utils;
-import jp.mixi.android.sdk.wrapper.Visibility;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.Privacy;
+import jp.eisbahn.android.sdk.wrapper.Utils;
+import jp.eisbahn.android.sdk.wrapper.Visibility;
+import jp.eisbahn.android.sdk.wrapper.photo.Album;
+import jp.eisbahn.android.sdk.wrapper.photo.GetAlbumsCallbackHandler;
 import android.os.Bundle;
 import android.test.mock.MockContext;
 

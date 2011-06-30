@@ -1,8 +1,9 @@
-package jp.mixi.android.sdk.wrapper.photo;
+package jp.eisbahn.android.sdk.wrapper.photo;
 
 import java.util.Date;
 
-import jp.mixi.android.sdk.wrapper.Utils;
+import jp.eisbahn.android.sdk.wrapper.Utils;
+import jp.eisbahn.android.sdk.wrapper.photo.Photo;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,6 @@
-package jp.mixi.android.sdk.wrapper;
+package jp.eisbahn.android.sdk.wrapper;
+
+import jp.eisbahn.android.sdk.wrapper.User;
 
 import org.json.JSONObject;
 

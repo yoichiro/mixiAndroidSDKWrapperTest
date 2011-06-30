@@ -1,8 +1,13 @@
-package jp.mixi.android.sdk.wrapper.people;
+package jp.eisbahn.android.sdk.wrapper.people;
 
 import java.util.Map;
 
-import jp.mixi.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.people.Field;
+import jp.eisbahn.android.sdk.wrapper.people.GetPeopleParams;
+import jp.eisbahn.android.sdk.wrapper.people.SortBy;
+import jp.eisbahn.android.sdk.wrapper.people.SortOrder;
+import jp.eisbahn.android.sdk.wrapper.people.ThumbnailPrivacy;
 
 public class GetPeopleParamsTest extends AbstractTest {
 

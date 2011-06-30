@@ -1,7 +1,10 @@
-package jp.mixi.android.sdk.wrapper.photo;
+package jp.eisbahn.android.sdk.wrapper.photo;
 
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.photo.GetAlbumsCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.photo.GetPhotosCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.photo.PhotoContainerImpl;
 import jp.mixi.android.sdk.MixiContainer;
-import jp.mixi.android.sdk.wrapper.AbstractTest;
 import android.test.mock.MockContext;
 
 import com.google.android.testing.mocking.AndroidMock;

@@ -1,6 +1,7 @@
-package jp.mixi.android.sdk.wrapper.request;
+package jp.eisbahn.android.sdk.wrapper.request;
 
-import jp.mixi.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.request.SendRequestCallbackHandler;
 import android.os.Bundle;
 import android.test.mock.MockContext;
 
