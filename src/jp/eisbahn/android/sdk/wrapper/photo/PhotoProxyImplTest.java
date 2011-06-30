@@ -58,7 +58,8 @@ public class PhotoProxyImplTest extends AbstractTest {
         String accessKey = "アクセスキー";
         
         MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
-        mixiContainer.send("/photo/albums/" + userId + "/@self?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
+        mixiContainer.send("/photo/albums/" + userId
+                + "/@self?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
         AndroidMock.replay(mixiContainer);
         
         PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
@@ -89,7 +90,8 @@ public class PhotoProxyImplTest extends AbstractTest {
         String accessKey = "アクセスキー";
         
         MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
-        mixiContainer.send("/photo/albums/" + userId + "/@self/" + albumId + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
+        mixiContainer.send("/photo/albums/" + userId + "/@self/" + albumId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
         AndroidMock.replay(mixiContainer);
         
         PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
@@ -136,6 +138,72 @@ public class PhotoProxyImplTest extends AbstractTest {
         
         PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.getMyPhoto(albumId, mediaItemId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testGetFriendPhotos() throws Exception {
+        GetPhotosCallbackHandler handler = new GetPhotosCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/mediaItems/" + userId + "/@self/" + albumId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendPhotos(userId, albumId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendPhotosWithAccessKey() throws Exception {
+        GetPhotosCallbackHandler handler = new GetPhotosCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/mediaItems/" + userId + "/@self/" + albumId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendPhotos(userId, albumId, accessKey, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendPhoto() throws Exception {
+        GetPhotosCallbackHandler handler = new GetPhotosCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/mediaItems/" + userId + "/@self/" + albumId + "/" + mediaItemId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendPhoto(userId, albumId, mediaItemId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendPhotoWithAccessKey() throws Exception {
+        GetPhotosCallbackHandler handler = new GetPhotosCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/mediaItems/" + userId + "/@self/" + albumId + "/" + mediaItemId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendPhoto(userId, albumId, mediaItemId, accessKey, handler);
         
         AndroidMock.verify(mixiContainer);
     }
