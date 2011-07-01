@@ -220,4 +220,100 @@ public class PhotoProxyImplTest extends AbstractTest {
         
         AndroidMock.verify(mixiContainer);
     }
+    
+    public void testGetMyAlbumComments() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String albumId = "albumId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/albums/@me/@self/" + albumId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getMyAlbumComments(albumId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testGetFriendAlbumComments() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/albums/" + userId + "/@self/" + albumId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendAlbumComments(userId, albumId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendAlbumCommentsWithAccessKey() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/albums/" + userId + "/@self/" + albumId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendAlbumComments(userId, albumId, accessKey, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetMyPhotoComments() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/albums/@me/@self/" + albumId + "/" + mediaItemId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getMyPhotoComments(albumId, mediaItemId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testGetFriendPhotoComments() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/albums/" + userId + "/@self/" + albumId + "/" + mediaItemId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendPhotoComments(userId, albumId, mediaItemId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendPhotoCommentsWithAccessKey() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/albums/" + userId + "/@self/" + albumId + "/" + mediaItemId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendPhotoComments(userId, albumId, mediaItemId, accessKey, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
 }
