@@ -207,4 +207,17 @@ public class PhotoProxyImplTest extends AbstractTest {
         
         AndroidMock.verify(mixiContainer);
     }
+    
+    public void testGetFriendsPhotos() throws Exception {
+        GetPhotosCallbackHandler handler = new GetPhotosCallbackHandler(new MockContext());
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/mediaItems/@me/@friends", handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendsPhotos(handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
 }
