@@ -316,4 +316,53 @@ public class PhotoProxyImplTest extends AbstractTest {
         AndroidMock.verify(mixiContainer);
     }
 
+    public void testGetMyPhotoFavorites() throws Exception {
+        GetUsersCallbackHandler handler = new GetUsersCallbackHandler(new MockContext());
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/favorites/mediaItems/@me/@self/" + albumId + "/" + mediaItemId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getMyPhotoFavorites(albumId, mediaItemId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testGetFriendPhotoFavorites() throws Exception {
+        GetUsersCallbackHandler handler = new GetUsersCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/favorites/mediaItems/" + userId + "/@self/" + albumId + "/" + mediaItemId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendPhotoFavorites(userId, albumId, mediaItemId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendPhotoFavoritesWithAccessKey() throws Exception {
+        GetUsersCallbackHandler handler = new GetUsersCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/favorites/mediaItems/" + userId + "/@self/" + albumId + "/" + mediaItemId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC", handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.getFriendPhotoFavorites(userId, albumId, mediaItemId, accessKey, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
 }
