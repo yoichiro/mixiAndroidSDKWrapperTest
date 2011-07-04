@@ -423,4 +423,60 @@ public class PhotoProxyImplTest extends AbstractTest {
         
         AndroidMock.verify(mixiContainer);
     }
+
+    public void testPostMyAlbumComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String albumId = "albumId1";
+        String text = "コメント１";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("text", text);
+        mixiContainer.send("/photo/comments/albums/@me/@self/" + albumId, HttpMethod.POST, params, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.postMyAlbumComment(albumId, text, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testPostFriendAlbumComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String text = "コメント１";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("text", text);
+        mixiContainer.send("/photo/comments/albums/" + userId + "/@self/" + albumId, HttpMethod.POST, params, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.postFriendAlbumComment(userId, albumId, text, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testPostFriendAlbumCommentWithAccessKey() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String text = "コメント１";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("text", text);
+        mixiContainer.send("/photo/comments/albums/" + userId + "/@self/" + albumId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC",
+                HttpMethod.POST, params, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.postFriendAlbumComment(userId, albumId, accessKey, text, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
 }
