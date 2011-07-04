@@ -1,9 +1,12 @@
 package jp.eisbahn.android.sdk.wrapper.photo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
-import jp.eisbahn.android.sdk.wrapper.photo.GetAlbumsCallbackHandler;
-import jp.eisbahn.android.sdk.wrapper.photo.GetPhotosCallbackHandler;
-import jp.eisbahn.android.sdk.wrapper.photo.PhotoProxyImpl;
+import jp.eisbahn.android.sdk.wrapper.CallbackAdapter;
+import jp.eisbahn.android.sdk.wrapper.Visibility;
+import jp.mixi.android.sdk.HttpMethod;
 import jp.mixi.android.sdk.MixiContainer;
 import android.test.mock.MockContext;
 
@@ -365,4 +368,59 @@ public class PhotoProxyImplTest extends AbstractTest {
         AndroidMock.verify(mixiContainer);
     }
 
+    public void testCreateAlbum() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String title = "title1";
+        String description = "description1";
+        Visibility visibility = Visibility.friends;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("title", title);
+        params.put("description", description);
+        params.put("visibility", visibility.toString());
+        mixiContainer.send("/photo/albums/@me/@self", HttpMethod.POST, params, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.createAlbum(title, description, visibility, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testCreateAlbumWithAccessKey() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String title = "title1";
+        String description = "description1";
+        Visibility visibility = Visibility.access_key;
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("title", title);
+        params.put("description", description);
+        params.put("visibility", visibility.toString());
+        params.put("accessKey", accessKey);
+        mixiContainer.send("/photo/albums/@me/@self", HttpMethod.POST, params, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.createAlbum(title, description, visibility, accessKey, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteAlbum() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String albumId = "albumId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/albums/@me/@self/" + albumId, HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteAlbum(albumId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
 }
