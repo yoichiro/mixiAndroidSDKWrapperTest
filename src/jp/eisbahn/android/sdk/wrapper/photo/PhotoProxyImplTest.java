@@ -479,4 +479,56 @@ public class PhotoProxyImplTest extends AbstractTest {
         
         AndroidMock.verify(mixiContainer);
     }
+    
+    public void testDeleteMyAlbumComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String albumId = "albumId1";
+        String commentId = "commentId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/albums/@me/@self/" + albumId + "/" + commentId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteMyAlbumComment(albumId, commentId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteFriendAlbumComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String commentId = "commentId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/albums/" + userId + "/@self/" + albumId + "/" + commentId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteFriendAlbumComment(userId, albumId, commentId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteFriendAlbumCommentWithAccessKey() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String commentId = "commentId1";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/albums/" + userId + "/@self/" + albumId + "/" + commentId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC",
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteFriendAlbumComment(userId, albumId, accessKey, commentId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
 }
