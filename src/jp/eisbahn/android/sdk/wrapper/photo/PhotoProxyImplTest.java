@@ -1,5 +1,7 @@
 package jp.eisbahn.android.sdk.wrapper.photo;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -528,6 +530,42 @@ public class PhotoProxyImplTest extends AbstractTest {
         
         PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
         target.deleteFriendAlbumComment(userId, albumId, accessKey, commentId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testUploadPhoto() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        InputStream in = new ByteArrayInputStream(new byte[0]);
+        int length = 123;
+        String albumId = "albumId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/mediaItems/@me/@self/" + albumId,
+                "image/jpeg", in, length, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.uploadPhoto(in, length, albumId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testUploadPhotoWithTitle() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        InputStream in = new ByteArrayInputStream(new byte[0]);
+        int length = 123;
+        String albumId = "albumId1";
+        String title = "タイトル１";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/mediaItems/@me/@self/" + albumId + "?title="
+                + "%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB%EF%BC%91",
+                "image/jpeg", in, length, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.uploadPhoto(in, length, albumId, title, handler);
         
         AndroidMock.verify(mixiContainer);
     }
