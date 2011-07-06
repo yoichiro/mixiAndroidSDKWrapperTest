@@ -569,4 +569,140 @@ public class PhotoProxyImplTest extends AbstractTest {
         
         AndroidMock.verify(mixiContainer);
     }
+    
+    public void testDeletePhoto() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/mediaItems/@me/@self/" + albumId + "/"
+                + mediaItemId, HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deletePhoto(albumId, mediaItemId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testPostMyPhotoComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String text = "コメント１";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("text", text);
+        mixiContainer.send("/photo/comments/mediaItems/@me/@self/" + albumId + "/" + mediaItemId,
+                HttpMethod.POST, params, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.postMyPhotoComment(albumId, mediaItemId, text, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testPostFriendPhotoComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String text = "コメント１";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("text", text);
+        mixiContainer.send("/photo/comments/mediaItems/" + userId + "/@self/" + albumId + "/" + mediaItemId,
+                HttpMethod.POST, params, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.postFriendPhotoComment(userId, albumId, mediaItemId, text, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testPostFriendPhotoCommentWithAccessKey() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String text = "コメント１";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("text", text);
+        mixiContainer.send("/photo/comments/mediaItems/" + userId + "/@self/" + albumId + "/" + mediaItemId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC",
+                HttpMethod.POST, params, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.postFriendPhotoComment(userId, albumId, mediaItemId, accessKey, text, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testDeleteMyPhotoComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String commentId = "commentId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/mediaItems/@me/@self/" + albumId + "/"
+                + mediaItemId + "/" + commentId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteMyPhotoComment(albumId, mediaItemId, commentId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteFriendPhotoComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String commentId = "commentId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/mediaItems/" + userId + "/@self/" + albumId
+                + "/" + mediaItemId + "/" + commentId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteFriendPhotoComment(userId, albumId, mediaItemId, commentId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteFriendPhotoCommentWithAccessKey() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String commentId = "commentId1";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/comments/mediaItems/" + userId + "/@self/" + albumId
+                + "/" + mediaItemId + "/" + commentId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC",
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteFriendPhotoComment(userId, albumId, mediaItemId, accessKey, commentId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
 }
