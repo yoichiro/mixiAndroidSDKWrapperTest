@@ -705,4 +705,98 @@ public class PhotoProxyImplTest extends AbstractTest {
         AndroidMock.verify(mixiContainer);
     }
 
+    public void testPostFriendPhotoFavorite() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/favorites/mediaItems/" + userId + "/@self/" + albumId + "/" + mediaItemId,
+                HttpMethod.POST, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.postFriendPhotoFavorite(userId, albumId, mediaItemId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testPostFriendPhotoFavoriteWithAccessKey() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/favorites/mediaItems/" + userId + "/@self/" + albumId + "/" + mediaItemId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC",
+                HttpMethod.POST, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.postFriendPhotoFavorite(userId, albumId, mediaItemId, accessKey, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteMyPhotoFavorite() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String favoriteUserId = "favoriteUserId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/favorites/mediaItems/@me/@self/" + albumId + "/"
+                + mediaItemId + "/" + favoriteUserId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteMyPhotoFavorite(albumId, mediaItemId, favoriteUserId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteFriendPhotoFavorite() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String favoriteUserId = "favoriteUserId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/favorites/mediaItems/" + userId + "/@self/" + albumId
+                + "/" + mediaItemId + "/" + favoriteUserId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteFriendPhotoFavorite(userId, albumId, mediaItemId, favoriteUserId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteFriendPhotoFavoriteWithAccessKey() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String albumId = "albumId1";
+        String mediaItemId = "mediaItemId1";
+        String favoriteUserId = "favoriteUserId1";
+        String accessKey = "アクセスキー";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/photo/favorites/mediaItems/" + userId + "/@self/" + albumId
+                + "/" + mediaItemId + "/" + favoriteUserId
+                + "?accessKey=%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%82%AD%E3%83%BC",
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        PhotoProxyImpl target = new PhotoProxyImpl(mixiContainer);
+        target.deleteFriendPhotoFavorite(userId, albumId, mediaItemId, accessKey, favoriteUserId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
 }
