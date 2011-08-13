@@ -4,6 +4,7 @@ import jp.eisbahn.android.sdk.wrapper.people.PeopleProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.photo.PhotoProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.request.RequestProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.search.SearchProxyImpl;
+import jp.eisbahn.android.sdk.wrapper.check.CheckProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.groups.GroupsProxyImpl;
 import jp.mixi.android.sdk.MixiContainer;
 
@@ -19,6 +20,7 @@ public class MixiWrapperImplTest extends AbstractTest {
         assertTrue(target.getPhotoAPI() instanceof PhotoProxyImpl);
         assertTrue(target.getGroupsAPI() instanceof GroupsProxyImpl);
         assertTrue(target.getSearchAPI() instanceof SearchProxyImpl);
+        assertTrue(target.getCheckAPI() instanceof CheckProxyImpl);
     }
     
 }

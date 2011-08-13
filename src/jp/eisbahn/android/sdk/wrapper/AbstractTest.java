@@ -1,5 +1,9 @@
 package jp.eisbahn.android.sdk.wrapper;
 
+import org.json.JSONObject;
+
+import com.google.android.testing.mocking.AndroidMock;
+
 import junit.framework.AssertionFailedError;
 import android.test.AndroidTestCase;
 
@@ -31,5 +35,9 @@ public abstract class AbstractTest extends AndroidTestCase {
         }
     }
     
-
+    protected JSONObject eqJSONObject(JSONObject expected) {
+        AndroidMock.reportMatcher(new JSONObjectMatcher(expected));
+        return null;
+    }
+    
 }
