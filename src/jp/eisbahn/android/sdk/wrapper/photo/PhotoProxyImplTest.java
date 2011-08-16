@@ -7,6 +7,7 @@ import java.util.Map;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
 import jp.eisbahn.android.sdk.wrapper.CallbackAdapter;
+import jp.eisbahn.android.sdk.wrapper.GetIdCallbackHandler;
 import jp.eisbahn.android.sdk.wrapper.Visibility;
 import jp.mixi.android.sdk.HttpMethod;
 import jp.mixi.android.sdk.MixiContainer;

@@ -1,6 +1,6 @@
-package jp.eisbahn.android.sdk.wrapper.photo;
+package jp.eisbahn.android.sdk.wrapper;
 
-import jp.eisbahn.android.sdk.wrapper.AbstractTest;
+import jp.eisbahn.android.sdk.wrapper.GetIdCallbackHandler;
 import android.os.Bundle;
 import android.test.mock.MockContext;
 
