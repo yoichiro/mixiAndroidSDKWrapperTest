@@ -1,11 +1,14 @@
 package jp.eisbahn.android.sdk.wrapper;
 
-import org.json.JSONObject;
-
-import com.google.android.testing.mocking.AndroidMock;
+import java.io.ByteArrayInputStream;
 
 import junit.framework.AssertionFailedError;
+
+import org.json.JSONObject;
+
 import android.test.AndroidTestCase;
+
+import com.google.android.testing.mocking.AndroidMock;
 
 public abstract class AbstractTest extends AndroidTestCase {
 
@@ -40,4 +43,9 @@ public abstract class AbstractTest extends AndroidTestCase {
         return null;
     }
     
+    protected ByteArrayInputStream eqByteArrayInputStream(ByteArrayInputStream expected) {
+        AndroidMock.reportMatcher(new ByteArrayInputStreamMatcher(expected));
+        return null;
+    }
+
 }
