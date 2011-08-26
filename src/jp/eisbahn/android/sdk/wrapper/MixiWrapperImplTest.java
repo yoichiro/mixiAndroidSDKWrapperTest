@@ -5,6 +5,7 @@ import jp.eisbahn.android.sdk.wrapper.people.PeopleProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.photo.PhotoProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.request.RequestProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.search.SearchProxyImpl;
+import jp.eisbahn.android.sdk.wrapper.updates.UpdatesProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.voice.VoiceProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.check.CheckProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.diary.DiaryProxyImpl;
@@ -27,6 +28,7 @@ public class MixiWrapperImplTest extends AbstractTest {
         assertTrue(target.getDiaryAPI() instanceof DiaryProxyImpl);
         assertTrue(target.getMessageAPI() instanceof MessageProxyImpl);
         assertTrue(target.getVoiceAPI() instanceof VoiceProxyImpl);
+        assertTrue(target.getUpdatesAPI() instanceof UpdatesProxyImpl);
     }
     
 }
