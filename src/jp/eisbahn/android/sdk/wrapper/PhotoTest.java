@@ -1,9 +1,8 @@
-package jp.eisbahn.android.sdk.wrapper.photo;
+package jp.eisbahn.android.sdk.wrapper;
 
 import java.util.Date;
 
-import jp.eisbahn.android.sdk.wrapper.Utils;
-import jp.eisbahn.android.sdk.wrapper.photo.Photo;
+import jp.eisbahn.android.sdk.wrapper.Photo;
 
 import org.json.JSONObject;
 
