@@ -1,8 +1,7 @@
-package jp.eisbahn.android.sdk.wrapper.photo;
+package jp.eisbahn.android.sdk.wrapper;
 
 import java.util.List;
 
-import jp.eisbahn.android.sdk.wrapper.AbstractTest;
 import jp.eisbahn.android.sdk.wrapper.User;
 import android.os.Bundle;
 import android.test.mock.MockContext;
