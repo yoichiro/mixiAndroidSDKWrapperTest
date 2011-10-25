@@ -226,4 +226,208 @@ public class CheckinProxyImplTest extends AbstractTest {
         
         AndroidMock.verify(mixiContainer);
     }
+    
+    public void testGetMyCheckins() throws Exception {
+        GetCheckinsCallbackHandler handler = new GetCheckinsCallbackHandler(new MockContext());
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/@me/@self", handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getMyCheckins(handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetMyCheckinsWithParams() throws Exception {
+        GetCheckinsCallbackHandler handler = new GetCheckinsCallbackHandler(new MockContext());
+        CheckinField[] fields = new CheckinField[] {
+                CheckinField.comments_created,
+                CheckinField.location_longitude
+        };
+        String spotId = "spotId1";
+        String sinceId = "sinceId1";
+        double latitude = 123.456;
+        double longitude = 789.321;
+        ResultsDirection resultsDirection = ResultsDirection.recent;
+        int count = 123;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("center", "123.456,789.321");
+        map.put("fields", "comments.created,location.longitude");
+        map.put("spotId", spotId);
+        map.put("sinceId", sinceId);
+        map.put("resultsDirection", resultsDirection.toString());
+        map.put("count", String.valueOf(count));
+        mixiContainer.send("/checkins/@me/@self", map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        GetCheckinsParams params = new GetCheckinsParams();
+        params.setCenter(latitude, longitude);
+        params.setCount(count);
+        params.setFields(fields);
+        params.setResultsDirection(resultsDirection);
+        params.setSinceId(sinceId);
+        params.setSpotId(spotId);
+        target.getMyCheckins(params, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendCheckins() throws Exception {
+        GetCheckinsCallbackHandler handler = new GetCheckinsCallbackHandler(new MockContext());
+        String userId = "userId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/" + userId + "/@self", handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getFriendCheckins(userId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendCheckinsWithParams() throws Exception {
+        GetCheckinsCallbackHandler handler = new GetCheckinsCallbackHandler(new MockContext());
+        String userId = "userId1";
+        CheckinField[] fields = new CheckinField[] {
+                CheckinField.comments_created,
+                CheckinField.location_longitude
+        };
+        String spotId = "spotId1";
+        String sinceId = "sinceId1";
+        double latitude = 123.456;
+        double longitude = 789.321;
+        ResultsDirection resultsDirection = ResultsDirection.recent;
+        int count = 123;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("center", "123.456,789.321");
+        map.put("fields", "comments.created,location.longitude");
+        map.put("spotId", spotId);
+        map.put("sinceId", sinceId);
+        map.put("resultsDirection", resultsDirection.toString());
+        map.put("count", String.valueOf(count));
+        mixiContainer.send("/checkins/" + userId + "/@self", map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        GetCheckinsParams params = new GetCheckinsParams();
+        params.setCenter(latitude, longitude);
+        params.setCount(count);
+        params.setFields(fields);
+        params.setResultsDirection(resultsDirection);
+        params.setSinceId(sinceId);
+        params.setSpotId(spotId);
+        target.getFriendCheckins(userId, params, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetGroupCheckins() throws Exception {
+        GetCheckinsCallbackHandler handler = new GetCheckinsCallbackHandler(new MockContext());
+        String groupId = "groupId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/@me/" + groupId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getGroupCheckins(groupId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetGroupCheckinsWithParams() throws Exception {
+        GetCheckinsCallbackHandler handler = new GetCheckinsCallbackHandler(new MockContext());
+        String groupId = "groupId1";
+        CheckinField[] fields = new CheckinField[] {
+                CheckinField.comments_created,
+                CheckinField.location_longitude
+        };
+        String spotId = "spotId1";
+        String sinceId = "sinceId1";
+        double latitude = 123.456;
+        double longitude = 789.321;
+        ResultsDirection resultsDirection = ResultsDirection.recent;
+        int count = 123;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("center", "123.456,789.321");
+        map.put("fields", "comments.created,location.longitude");
+        map.put("spotId", spotId);
+        map.put("sinceId", sinceId);
+        map.put("resultsDirection", resultsDirection.toString());
+        map.put("count", String.valueOf(count));
+        mixiContainer.send("/checkins/@me/" + groupId, map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        GetCheckinsParams params = new GetCheckinsParams();
+        params.setCenter(latitude, longitude);
+        params.setCount(count);
+        params.setFields(fields);
+        params.setResultsDirection(resultsDirection);
+        params.setSinceId(sinceId);
+        params.setSpotId(spotId);
+        target.getGroupCheckins(groupId, params, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendsCheckins() throws Exception {
+        GetCheckinsCallbackHandler handler = new GetCheckinsCallbackHandler(new MockContext());
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/@me/@friends", handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getFriendsCheckins(handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendsCheckinsWithParams() throws Exception {
+        GetCheckinsCallbackHandler handler = new GetCheckinsCallbackHandler(new MockContext());
+        CheckinField[] fields = new CheckinField[] {
+                CheckinField.comments_created,
+                CheckinField.location_longitude
+        };
+        String spotId = "spotId1";
+        String sinceId = "sinceId1";
+        double latitude = 123.456;
+        double longitude = 789.321;
+        ResultsDirection resultsDirection = ResultsDirection.recent;
+        int count = 123;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("center", "123.456,789.321");
+        map.put("fields", "comments.created,location.longitude");
+        map.put("spotId", spotId);
+        map.put("sinceId", sinceId);
+        map.put("resultsDirection", resultsDirection.toString());
+        map.put("count", String.valueOf(count));
+        mixiContainer.send("/checkins/@me/@friends", map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        GetCheckinsParams params = new GetCheckinsParams();
+        params.setCenter(latitude, longitude);
+        params.setCount(count);
+        params.setFields(fields);
+        params.setResultsDirection(resultsDirection);
+        params.setSinceId(sinceId);
+        params.setSpotId(spotId);
+        target.getFriendsCheckins(params, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
 }
