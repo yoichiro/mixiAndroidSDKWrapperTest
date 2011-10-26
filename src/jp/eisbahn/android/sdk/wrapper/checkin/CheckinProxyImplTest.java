@@ -430,4 +430,74 @@ public class CheckinProxyImplTest extends AbstractTest {
         
         AndroidMock.verify(mixiContainer);
     }
+
+    public void testGetMyCheckin() throws Exception {
+        GetCheckinCallbackHandler handler = new GetCheckinCallbackHandler(new MockContext());
+        String checkinId = "checkinId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/@me/@self/" + checkinId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getMyCheckin(checkinId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetMyCheckinWithFields() throws Exception {
+        GetCheckinCallbackHandler handler = new GetCheckinCallbackHandler(new MockContext());
+        String checkinId = "checkinId1";
+        CheckinField[] fields = new CheckinField[] {
+                CheckinField.comments_created,
+                CheckinField.location_longitude
+        };
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("fields", "comments.created,location.longitude");
+        mixiContainer.send("/checkins/@me/@self/" + checkinId, map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getMyCheckin(checkinId, fields, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendCheckin() throws Exception {
+        GetCheckinCallbackHandler handler = new GetCheckinCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/" + userId + "/@self/" + checkinId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getFriendCheckin(userId, checkinId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendCheckinWithFields() throws Exception {
+        GetCheckinCallbackHandler handler = new GetCheckinCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        CheckinField[] fields = new CheckinField[] {
+                CheckinField.comments_created,
+                CheckinField.location_longitude
+        };
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("fields", "comments.created,location.longitude");
+        mixiContainer.send("/checkins/" + userId + "/@self/" + checkinId, map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getFriendCheckin(userId, checkinId, fields, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
 }
