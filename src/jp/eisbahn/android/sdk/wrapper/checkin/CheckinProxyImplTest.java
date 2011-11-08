@@ -1,11 +1,14 @@
 package jp.eisbahn.android.sdk.wrapper.checkin;
 
+import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
 import jp.eisbahn.android.sdk.wrapper.CallbackAdapter;
+import jp.eisbahn.android.sdk.wrapper.GetCommentsCallbackHandler;
 import jp.eisbahn.android.sdk.wrapper.GetIdCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.Visibility;
 import jp.mixi.android.sdk.HttpMethod;
 import jp.mixi.android.sdk.MixiContainer;
 
@@ -500,4 +503,391 @@ public class CheckinProxyImplTest extends AbstractTest {
         
         AndroidMock.verify(mixiContainer);
     }
+    
+    public void testCheckin() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String spotId = "spotId1";
+        String message = "message1";
+        Visibility visibility = Visibility.friends_of_friends;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        JSONObject json = new JSONObject();
+        json.put("message", message);
+        JSONObject privacy = new JSONObject();
+        privacy.put("visibility", visibility.toString());
+        json.put("privacy", privacy);
+        mixiContainer.send(
+                AndroidMock.eq("/checkins/" + spotId),
+                eqJSONObject(json),
+                AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.checkin(spotId, message, visibility, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testCheckinForGroup() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String spotId = "spotId1";
+        String message = "message1";
+        String groupId = "groupId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        JSONObject json = new JSONObject();
+        json.put("message", message);
+        JSONObject privacy = new JSONObject();
+        privacy.put("visibility", Visibility.group.toString());
+        privacy.put("group", groupId);
+        json.put("privacy", privacy);
+        mixiContainer.send(
+                AndroidMock.eq("/checkins/" + spotId),
+                eqJSONObject(json),
+                AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.checkin(spotId, message, groupId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testCheckinWithParams() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String spotId = "spotId1";
+        double latitude = 123.456;
+        double longitude = 789.123;
+        String message = "message1";
+        Visibility visibility = Visibility.friends_of_friends;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        JSONObject json = new JSONObject();
+        json.put("message", message);
+        JSONObject location = new JSONObject();
+        location.put("latitude", String.valueOf(latitude));
+        location.put("longitude", String.valueOf(longitude));
+        json.put("location", location);
+        JSONObject privacy = new JSONObject();
+        privacy.put("visibility", visibility.toString());
+        json.put("privacy", privacy);
+        mixiContainer.send(
+                AndroidMock.eq("/checkins/" + spotId),
+                eqJSONObject(json),
+                AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.checkin(spotId, latitude, longitude, message, visibility, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testCheckinForGroupWithParams() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String spotId = "spotId1";
+        double latitude = 123.456;
+        double longitude = 789.123;
+        String message = "message1";
+        String groupId = "groupId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        JSONObject json = new JSONObject();
+        json.put("message", message);
+        JSONObject location = new JSONObject();
+        location.put("latitude", String.valueOf(latitude));
+        location.put("longitude", String.valueOf(longitude));
+        json.put("location", location);
+        JSONObject privacy = new JSONObject();
+        privacy.put("visibility", Visibility.group.toString());
+        privacy.put("group", groupId);
+        json.put("privacy", privacy);
+        mixiContainer.send(
+                AndroidMock.eq("/checkins/" + spotId),
+                eqJSONObject(json),
+                AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.checkin(spotId, latitude, longitude, message, groupId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testCheckinWithImage() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String spotId = "spotId1";
+        String message = "message1";
+        Visibility visibility = Visibility.friends_of_friends;
+        byte[] image = {1, 9, 2, 8, 3, 7, 4, 6, 5};
+        
+        JSONObject params = new JSONObject();
+        params.put("message", message);
+        JSONObject privacy = new JSONObject();
+        privacy.put("visibility", visibility.toString());
+        params.put("privacy", privacy);
+        StringBuilder sb = new StringBuilder();
+        sb.append("---mixi_android_sdk_wrapper\r\n");
+        sb.append("Content-Disposition: form-data; name=\"request\"\r\n");
+        sb.append("\r\n");
+        sb.append(params.toString());
+        sb.append("\r\n");
+        sb.append("---mixi_android_sdk_wrapper\r\n");
+        sb.append("Content-Disposition: form-data; name=\"photo1\"; filename=\"photo1.jpg\"\r\n");
+        sb.append("\r\n");
+        byte[] header = sb.toString().getBytes("UTF-8");
+        
+        byte[] request = new byte[header.length + image.length];
+        System.arraycopy(header, 0, request, 0, header.length);
+        System.arraycopy(image, 0, request, header.length, image.length);
+        ByteArrayInputStream in = new ByteArrayInputStream(request);
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send(AndroidMock.eq("/checkins/" + spotId),
+                AndroidMock.eq("multipart/form-data; boundary=-mixi_android_sdk_wrapper"),
+                eqByteArrayInputStream(in), AndroidMock.eq((long)request.length), AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.checkin(spotId, message, visibility, new ByteArrayInputStream(image), handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testCheckinForGroupWithImage() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String spotId = "spotId1";
+        String message = "message1";
+        String groupId = "groupId1";
+        byte[] image = {1, 9, 2, 8, 3, 7, 4, 6, 5};
+        
+        JSONObject params = new JSONObject();
+        params.put("message", message);
+        JSONObject privacy = new JSONObject();
+        privacy.put("visibility", Visibility.group.toString());
+        privacy.put("group", groupId);
+        params.put("privacy", privacy);
+        StringBuilder sb = new StringBuilder();
+        sb.append("---mixi_android_sdk_wrapper\r\n");
+        sb.append("Content-Disposition: form-data; name=\"request\"\r\n");
+        sb.append("\r\n");
+        sb.append(params.toString());
+        sb.append("\r\n");
+        sb.append("---mixi_android_sdk_wrapper\r\n");
+        sb.append("Content-Disposition: form-data; name=\"photo1\"; filename=\"photo1.jpg\"\r\n");
+        sb.append("\r\n");
+        byte[] header = sb.toString().getBytes("UTF-8");
+        
+        byte[] request = new byte[header.length + image.length];
+        System.arraycopy(header, 0, request, 0, header.length);
+        System.arraycopy(image, 0, request, header.length, image.length);
+        ByteArrayInputStream in = new ByteArrayInputStream(request);
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send(AndroidMock.eq("/checkins/" + spotId),
+                AndroidMock.eq("multipart/form-data; boundary=-mixi_android_sdk_wrapper"),
+                eqByteArrayInputStream(in), AndroidMock.eq((long)request.length), AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.checkin(spotId, message, groupId, new ByteArrayInputStream(image), handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testCheckinWithParamsAndImage() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String spotId = "spotId1";
+        double latitude = 123.456;
+        double longitude = 789.123;
+        String message = "message1";
+        Visibility visibility = Visibility.friends_of_friends;
+        byte[] image = {1, 9, 2, 8, 3, 7, 4, 6, 5};
+        
+        JSONObject params = new JSONObject();
+        params.put("message", message);
+        JSONObject location = new JSONObject();
+        location.put("latitude", String.valueOf(latitude));
+        location.put("longitude", String.valueOf(longitude));
+        params.put("location", location);
+        JSONObject privacy = new JSONObject();
+        privacy.put("visibility", visibility.toString());
+        params.put("privacy", privacy);
+        StringBuilder sb = new StringBuilder();
+        sb.append("---mixi_android_sdk_wrapper\r\n");
+        sb.append("Content-Disposition: form-data; name=\"request\"\r\n");
+        sb.append("\r\n");
+        sb.append(params.toString());
+        sb.append("\r\n");
+        sb.append("---mixi_android_sdk_wrapper\r\n");
+        sb.append("Content-Disposition: form-data; name=\"photo1\"; filename=\"photo1.jpg\"\r\n");
+        sb.append("\r\n");
+        byte[] header = sb.toString().getBytes("UTF-8");
+        
+        byte[] request = new byte[header.length + image.length];
+        System.arraycopy(header, 0, request, 0, header.length);
+        System.arraycopy(image, 0, request, header.length, image.length);
+        ByteArrayInputStream in = new ByteArrayInputStream(request);
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send(AndroidMock.eq("/checkins/" + spotId),
+                AndroidMock.eq("multipart/form-data; boundary=-mixi_android_sdk_wrapper"),
+                eqByteArrayInputStream(in), AndroidMock.eq((long)request.length), AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.checkin(spotId, latitude, longitude, message, visibility,
+                new ByteArrayInputStream(image), handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testCheckinForGroupWithParamsAndImage() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String spotId = "spotId1";
+        double latitude = 123.456;
+        double longitude = 789.123;
+        String message = "message1";
+        String groupId = "groupId1";
+        byte[] image = {1, 9, 2, 8, 3, 7, 4, 6, 5};
+        
+        JSONObject params = new JSONObject();
+        params.put("message", message);
+        JSONObject location = new JSONObject();
+        location.put("latitude", String.valueOf(latitude));
+        location.put("longitude", String.valueOf(longitude));
+        params.put("location", location);
+        JSONObject privacy = new JSONObject();
+        privacy.put("visibility", Visibility.group.toString());
+        privacy.put("group", groupId);
+        params.put("privacy", privacy);
+        StringBuilder sb = new StringBuilder();
+        sb.append("---mixi_android_sdk_wrapper\r\n");
+        sb.append("Content-Disposition: form-data; name=\"request\"\r\n");
+        sb.append("\r\n");
+        sb.append(params.toString());
+        sb.append("\r\n");
+        sb.append("---mixi_android_sdk_wrapper\r\n");
+        sb.append("Content-Disposition: form-data; name=\"photo1\"; filename=\"photo1.jpg\"\r\n");
+        sb.append("\r\n");
+        byte[] header = sb.toString().getBytes("UTF-8");
+        
+        byte[] request = new byte[header.length + image.length];
+        System.arraycopy(header, 0, request, 0, header.length);
+        System.arraycopy(image, 0, request, header.length, image.length);
+        ByteArrayInputStream in = new ByteArrayInputStream(request);
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send(AndroidMock.eq("/checkins/" + spotId),
+                AndroidMock.eq("multipart/form-data; boundary=-mixi_android_sdk_wrapper"),
+                eqByteArrayInputStream(in), AndroidMock.eq((long)request.length), AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.checkin(spotId, latitude, longitude, message, groupId,
+                new ByteArrayInputStream(image), handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testDeleteCheckin() throws Exception {
+        CallbackAdapter handler = new GetIdCallbackHandler(new MockContext());
+        String checkinId = "checkinId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/@me/@self/" + checkinId, HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.deleteCheckin(checkinId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testGetMyCheckinComments() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String checkinId = "checkinId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/comments/@me/@self/" + checkinId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getMyCheckinComments(checkinId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetMyCheckinCommentsWithParams() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String checkinId = "checkinId1";
+        CommentField[] fields = new CommentField[] {
+                CommentField.text,
+                CommentField.user_profileUrl
+        };
+        int startIndex = 2;
+        int count = 3;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("fields", "text,user.profileUrl");
+        map.put("startIndex", "2");
+        map.put("count", "3");
+        mixiContainer.send("/checkins/comments/@me/@self/" + checkinId, map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        GetCommentsParams params = new GetCommentsParams();
+        params.setFields(fields);
+        params.setStartIndex(startIndex);
+        params.setCount(count);
+        target.getMyCheckinComments(checkinId, params, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendCheckinComments() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/comments/" + userId + "/@self/" + checkinId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getFriendCheckinComments(userId, checkinId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendCheckinCommentsWithParams() throws Exception {
+        GetCommentsCallbackHandler handler = new GetCommentsCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        CommentField[] fields = new CommentField[] {
+                CommentField.text,
+                CommentField.user_profileUrl
+        };
+        int startIndex = 2;
+        int count = 3;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("fields", "text,user.profileUrl");
+        map.put("startIndex", "2");
+        map.put("count", "3");
+        mixiContainer.send("/checkins/comments/" + userId + "/@self/" + checkinId, map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        GetCommentsParams params = new GetCommentsParams();
+        params.setFields(fields);
+        params.setStartIndex(startIndex);
+        params.setCount(count);
+        target.getFriendCheckinComments(userId, checkinId, params, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
 }

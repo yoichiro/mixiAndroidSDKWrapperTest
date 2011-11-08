@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/mixiAndroidSDKWrapper"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="src" path="mixiAndroidSDK_src"/>
 	<classpathentry kind="src" path="mixiAndroidSDKWrapper_src"/>
 	<classpathentry kind="lib" path="libs/AndroidMockGenerator.jar"/>
 	<classpathentry kind="src" path=".apt_generated">
@@ -12,5 +11,6 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="mixiAndroidSDK_src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
