@@ -6,8 +6,10 @@ import java.util.Map;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
 import jp.eisbahn.android.sdk.wrapper.CallbackAdapter;
+import jp.eisbahn.android.sdk.wrapper.Field;
 import jp.eisbahn.android.sdk.wrapper.GetCommentsCallbackHandler;
 import jp.eisbahn.android.sdk.wrapper.GetIdCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.GetUsersCallbackHandler;
 import jp.eisbahn.android.sdk.wrapper.Visibility;
 import jp.mixi.android.sdk.HttpMethod;
 import jp.mixi.android.sdk.MixiContainer;
@@ -890,4 +892,212 @@ public class CheckinProxyImplTest extends AbstractTest {
         AndroidMock.verify(mixiContainer);
     }
     
+    public void testPostMyCheckinComment() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String checkinId = "checkinId1";
+        String text = "text1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        JSONObject json = new JSONObject();
+        json.put("text", text);
+        mixiContainer.send(
+                AndroidMock.eq("/checkins/comments/@me/@self/" + checkinId),
+                eqJSONObject(json),
+                AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.postMyCheckinComment(checkinId, text, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testPostFriendCheckinComment() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        String text = "text1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        JSONObject json = new JSONObject();
+        json.put("text", text);
+        mixiContainer.send(
+                AndroidMock.eq("/checkins/comments/" + userId + "/@self/" + checkinId),
+                eqJSONObject(json),
+                AndroidMock.same(handler));
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.postFriendCheckinComment(userId, checkinId, text, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+    
+    public void testDeleteMyCheckinComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String checkinId = "checkinId1";
+        String commentId = "commentId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/comments/@me/@self/" + checkinId + "/" + commentId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.deleteMyCheckinComment(checkinId, commentId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteFriendCheckinComment() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        String commentId = "commentId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/comments/" + userId + "/@self/" + checkinId + "/" + commentId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.deleteFriendCheckinComment(userId, checkinId, commentId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetMyCheckinFavorites() throws Exception {
+        GetUsersCallbackHandler handler = new GetUsersCallbackHandler(new MockContext());
+        String checkinId = "checkinId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/favorites/@me/@self/" + checkinId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getMyCheckinFavorites(checkinId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetMyCheckinFavoritesWithParams() throws Exception {
+        GetUsersCallbackHandler handler = new GetUsersCallbackHandler(new MockContext());
+        String checkinId = "checkinId1";
+        Field[] fields = new Field[] {
+                Field.profileUrl,
+                Field.thumbnailUrl
+        };
+        int startIndex = 2;
+        int count = 3;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("fields", "profileUrl,thumbnailUrl");
+        map.put("startIndex", "2");
+        map.put("count", "3");
+        mixiContainer.send("/checkins/favorites/@me/@self/" + checkinId, map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        GetFavoritesParams params = new GetFavoritesParams();
+        params.setFields(fields);
+        params.setStartIndex(startIndex);
+        params.setCount(count);
+        target.getMyCheckinFavorites(checkinId, params, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendCheckinFavorites() throws Exception {
+        GetUsersCallbackHandler handler = new GetUsersCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/favorites/" + userId + "/@self/" + checkinId, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.getFriendCheckinFavorites(userId, checkinId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testGetFriendCheckinFavoritesWithParams() throws Exception {
+        GetUsersCallbackHandler handler = new GetUsersCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        Field[] fields = new Field[] {
+                Field.profileUrl,
+                Field.thumbnailUrl
+        };
+        int startIndex = 2;
+        int count = 3;
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("fields", "profileUrl,thumbnailUrl");
+        map.put("startIndex", "2");
+        map.put("count", "3");
+        mixiContainer.send("/checkins/favorites/" + userId + "/@self/" + checkinId, map, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        GetFavoritesParams params = new GetFavoritesParams();
+        params.setFields(fields);
+        params.setStartIndex(startIndex);
+        params.setCount(count);
+        target.getFriendCheckinFavorites(userId, checkinId, params, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testPostFriendCheckinFavorite() throws Exception {
+        GetIdCallbackHandler handler = new GetIdCallbackHandler(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/favorites/" + userId + "/@self/" + checkinId,
+                HttpMethod.POST, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.postFriendCheckinFavorite(userId, checkinId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteMyCheckinFavorite() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String checkinId = "checkinId1";
+        String favoriteUserId = "favoriteUserId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/favorites/@me/@self/" + checkinId + "/" + favoriteUserId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.deleteMyCheckinFavorite(checkinId, favoriteUserId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
+
+    public void testDeleteFriendCheckinFavorite() throws Exception {
+        CallbackAdapter handler = new CallbackAdapter(new MockContext());
+        String userId = "userId1";
+        String checkinId = "checkinId1";
+        String favoriteUserId = "favoriteUserId1";
+        
+        MixiContainer mixiContainer = AndroidMock.createMock(MixiContainer.class);
+        mixiContainer.send("/checkins/favorites/" + userId + "/@self/" + checkinId + "/" + favoriteUserId,
+                HttpMethod.DELETE, handler);
+        AndroidMock.replay(mixiContainer);
+        
+        CheckinProxyImpl target = new CheckinProxyImpl(mixiContainer);
+        target.deleteFriendCheckinFavorite(userId, checkinId, favoriteUserId, handler);
+        
+        AndroidMock.verify(mixiContainer);
+    }
 }
