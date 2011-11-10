@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
-import jp.eisbahn.android.sdk.wrapper.CallbackAdapter;
-import jp.eisbahn.android.sdk.wrapper.GetIdCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.common.CallbackAdapter;
+import jp.eisbahn.android.sdk.wrapper.common.GetIdCallbackHandler;
 import jp.mixi.android.sdk.HttpMethod;
 import jp.mixi.android.sdk.MixiContainer;
 import android.test.mock.MockContext;

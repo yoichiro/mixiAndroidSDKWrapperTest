@@ -3,7 +3,7 @@ package jp.eisbahn.android.sdk.wrapper.checkin;
 import java.util.Map;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
-import jp.eisbahn.android.sdk.wrapper.Field;
+import jp.eisbahn.android.sdk.wrapper.common.Field;
 
 public class GetFavoritesParamsTest extends AbstractTest {
 

@@ -1,6 +1,6 @@
-package jp.eisbahn.android.sdk.wrapper;
+package jp.eisbahn.android.sdk.wrapper.common;
 
-import jp.eisbahn.android.sdk.wrapper.GetIdCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
 import android.os.Bundle;
 import android.test.mock.MockContext;
 

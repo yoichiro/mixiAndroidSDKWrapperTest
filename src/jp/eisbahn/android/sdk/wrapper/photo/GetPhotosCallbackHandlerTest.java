@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
-import jp.eisbahn.android.sdk.wrapper.Photo;
 import jp.eisbahn.android.sdk.wrapper.Utils;
+import jp.eisbahn.android.sdk.wrapper.common.Photo;
 import jp.eisbahn.android.sdk.wrapper.photo.GetPhotosCallbackHandler;
 import android.os.Bundle;
 import android.test.mock.MockContext;

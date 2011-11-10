@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
-import jp.eisbahn.android.sdk.wrapper.CallbackAdapter;
+import jp.eisbahn.android.sdk.wrapper.common.CallbackAdapter;
 import jp.eisbahn.android.sdk.wrapper.request.RequestProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.request.SendRequestCallbackHandler;
 import jp.eisbahn.android.sdk.wrapper.request.SendRequestParams;

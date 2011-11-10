@@ -1,8 +1,8 @@
 package jp.eisbahn.android.sdk.wrapper.check;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
-import jp.eisbahn.android.sdk.wrapper.CallbackAdapter;
-import jp.eisbahn.android.sdk.wrapper.Visibility;
+import jp.eisbahn.android.sdk.wrapper.common.CallbackAdapter;
+import jp.eisbahn.android.sdk.wrapper.common.Visibility;
 import jp.mixi.android.sdk.MixiContainer;
 
 import org.json.JSONObject;

@@ -3,8 +3,8 @@ package jp.eisbahn.android.sdk.wrapper.diary;
 import java.io.ByteArrayInputStream;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
-import jp.eisbahn.android.sdk.wrapper.GetIdCallbackHandler;
-import jp.eisbahn.android.sdk.wrapper.Visibility;
+import jp.eisbahn.android.sdk.wrapper.common.GetIdCallbackHandler;
+import jp.eisbahn.android.sdk.wrapper.common.Visibility;
 import jp.mixi.android.sdk.MixiContainer;
 
 import org.json.JSONObject;

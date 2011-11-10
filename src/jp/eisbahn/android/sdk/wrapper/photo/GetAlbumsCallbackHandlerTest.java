@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
-import jp.eisbahn.android.sdk.wrapper.Privacy;
 import jp.eisbahn.android.sdk.wrapper.Utils;
-import jp.eisbahn.android.sdk.wrapper.Visibility;
+import jp.eisbahn.android.sdk.wrapper.common.Privacy;
+import jp.eisbahn.android.sdk.wrapper.common.Visibility;
 import jp.eisbahn.android.sdk.wrapper.photo.Album;
 import jp.eisbahn.android.sdk.wrapper.photo.GetAlbumsCallbackHandler;
 import android.os.Bundle;

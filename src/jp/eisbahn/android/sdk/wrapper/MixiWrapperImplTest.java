@@ -10,6 +10,7 @@ import jp.eisbahn.android.sdk.wrapper.updates.UpdatesProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.voice.VoiceProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.check.CheckProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.checkin.CheckinProxyImpl;
+import jp.eisbahn.android.sdk.wrapper.common.MixiWrapperImpl;
 import jp.eisbahn.android.sdk.wrapper.diary.DiaryProxyImpl;
 import jp.eisbahn.android.sdk.wrapper.groups.GroupsProxyImpl;
 import jp.mixi.android.sdk.MixiContainer;

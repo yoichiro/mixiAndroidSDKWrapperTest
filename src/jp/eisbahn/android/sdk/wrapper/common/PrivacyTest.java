@@ -1,7 +1,6 @@
-package jp.eisbahn.android.sdk.wrapper;
+package jp.eisbahn.android.sdk.wrapper.common;
 
-import jp.eisbahn.android.sdk.wrapper.Privacy;
-import jp.eisbahn.android.sdk.wrapper.Visibility;
+import jp.eisbahn.android.sdk.wrapper.AbstractTest;
 
 import org.json.JSONObject;
 

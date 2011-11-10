@@ -3,7 +3,7 @@ package jp.eisbahn.android.sdk.wrapper.people;
 import java.util.Map;
 
 import jp.eisbahn.android.sdk.wrapper.AbstractTest;
-import jp.eisbahn.android.sdk.wrapper.Field;
+import jp.eisbahn.android.sdk.wrapper.common.Field;
 import jp.eisbahn.android.sdk.wrapper.people.GetPeopleParams;
 import jp.eisbahn.android.sdk.wrapper.people.SortBy;
 import jp.eisbahn.android.sdk.wrapper.people.SortOrder;
